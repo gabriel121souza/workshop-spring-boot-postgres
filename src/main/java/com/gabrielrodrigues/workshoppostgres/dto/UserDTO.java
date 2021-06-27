@@ -4,7 +4,7 @@ import com.gabrielrodrigues.workshoppostgres.domain.User;
 
 public class UserDTO {
 
-	private String id;
+	private Long id;
 	private String name;
 	private String email;
 	
@@ -19,11 +19,11 @@ public class UserDTO {
 		this.email = user.getEmail();
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gabrielrodrigues.workshoppostgres.domain.User;
 import com.gabrielrodrigues.workshoppostgres.repositories.UserRepository;
+import com.gabrielrodrigues.workshoppostgres.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class UserService {
@@ -17,6 +18,9 @@ public class UserService {
 	public List<User> findAll(){
 		return  userRepository.findAll();
 	}
-	
-	
+
+	public User findById(Long id) {
+		return userRepository.findById(id)
+				.orElseThrow(() -> new ObjectNotFoundException("usuario nao encontrado  = " + id));
+	}
 }
