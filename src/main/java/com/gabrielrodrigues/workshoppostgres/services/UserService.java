@@ -38,4 +38,9 @@ public class UserService {
 		}
 		throw new BadRequestException("nao foi possivel inserir o usuario");
 	}
+	
+	public void delete(Long id) {
+		findById(id);
+		userRepository.deleteById(id);
+	}
 }
