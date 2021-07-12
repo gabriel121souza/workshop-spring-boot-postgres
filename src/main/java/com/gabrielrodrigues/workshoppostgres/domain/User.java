@@ -1,11 +1,17 @@
 package com.gabrielrodrigues.workshoppostgres.domain;
 
 import java.io.Serializable;
+import java.util.Map;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKey;
+import javax.persistence.OneToMany;
 
 @Entity(name = "tb_user")
 public class User implements Serializable {
@@ -14,10 +20,18 @@ public class User implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
 	private Long id;
+	@Column(name ="email")
 	private String email;
+	@Column(name = "name")
 	private String name;
-
+/*
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="post_id")
+	@MapKey(name="postID")
+	private Map<Long,Post> post;
+	*/
 	public User() {
 
 	}
@@ -52,7 +66,16 @@ public class User implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+/*
+	public Map<Long, Post> getPost() {
+		return post;
+	}
 
+	public void setPost(Map<Long, Post> post) {
+		this.post = post;
+	}
+*/
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -60,6 +83,7 @@ public class User implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {

@@ -1,44 +1,54 @@
 package com.gabrielrodrigues.workshoppostgres.services;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gabrielrodrigues.workshoppostgres.domain.Post;
 import com.gabrielrodrigues.workshoppostgres.domain.User;
-import com.gabrielrodrigues.workshoppostgres.dto.UserDTO;
+import com.gabrielrodrigues.workshoppostgres.dto.PostDTO;
+import com.gabrielrodrigues.workshoppostgres.repositories.PostRepository;
 import com.gabrielrodrigues.workshoppostgres.repositories.UserRepository;
 import com.gabrielrodrigues.workshoppostgres.services.exceptions.BadRequestException;
 import com.gabrielrodrigues.workshoppostgres.services.exceptions.ObjectNotFoundException;
 
 @Service
-public class UserService {
+public class PostService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private PostRepository postRepository;
 	
-	public List<User> findAll(){
-		return  userRepository.findAll();
+	@Autowired
+	private UserRepository userRepository;
+	public List<Post> findAll(){
+		return  postRepository.findAll();
 	}
 
-	public User findById(Long id) {
-		return userRepository.findById(id)
+	public Post findById(Long id) {
+		return postRepository.findById(id)
 				.orElseThrow(() -> new ObjectNotFoundException("usuario nao encontrado  = " + id));
 	}
 	
-	public User insert(UserDTO userDTO) {
-		if(userDTO != null) {	
-		User user = new User();
-			user.setName(userDTO.getName());
-			user.setEmail(userDTO.getEmail());
-			if(user!=null) {
-			userRepository.save(user);
-			return user;
+	public Post insert(PostDTO postDTO) {
+		if(postDTO != null) {	
+		Post post = new Post();
+		User author = new User();
+			author = userRepository.findById(postDTO.getAuthor().getId()).get();
+			post.setTitle(postDTO.getTitle());
+			post.setBody(postDTO.getBody());
+			post.setDate(new Date());
+			post.setAuthor(author);
+			if(post!=null) {
+			postRepository.save(post);
+			return post;
 			}
 		}
 		throw new BadRequestException("nao foi possivel inserir o usuario");
 	}
-	
+	/*
 	public void delete(Long id) {
 		findById(id);
 		userRepository.deleteById(id);
@@ -54,4 +64,5 @@ public class UserService {
 			throw new BadRequestException("não foi possivel alterar o usuario");
 		}
 	}
+	*/
 }
